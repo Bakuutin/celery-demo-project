@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'app',
 
     'django_extensions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -164,7 +165,6 @@ CELERY_WORKER_SEND_TASK_EVENTS = True
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_ALWAYS_EAGER = False
 CELERY_WORKER_CONCURRENCY = 8
-CELERY_BEAT_PERIOD_IN_MINUTES = env('CELERY_BEAT_PERIOD_IN_MINUTES', '1')
 CELERY_BEAT_SCHEDULE = {
     # Please, keep schedule in seconds as either unique prime number
     # or a unique prime number times power of two
@@ -173,4 +173,23 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'app.celery.run_planned_actions',
         'schedule': timedelta(seconds=30),
     },
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # NOT SECURE!
+    ],
 }

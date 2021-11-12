@@ -12,6 +12,10 @@ django-extensions = "*"
 ipython = "*"
 jupyterlab = "*"
 pywatchman = "*"
+djangorestframework = "*"
+django-stubs = "*"
+mypy = "*"
+djangorestframework-stubs = "*"
 
 [dev-packages]
 

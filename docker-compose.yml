@@ -15,6 +15,7 @@ x-variables: &variables
 x-python: &python
   build: .
   volumes: [./:/srv]
+  restart: on-failure
   environment: *variables
 
 services:
