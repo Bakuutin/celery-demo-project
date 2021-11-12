@@ -1,0 +1,22 @@
+version: "3.8"
+
+x-variables: &variables
+  DJANGO_SETTINGS_MODULE: app.settings
+  SECRET_KEY: $SECRET_KEY
+  POSTGRES_HOST: 'postgres'
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    ports: ["5432:5432"]
+    environment: *variables
+  app:
+    build: .
+    volumes: [./:/srv]
+    ports: ["8000:8000"]
+    environment: *variables
+    command: ['python', 'manage.py', 'runserver', '0.0.0.0:8000']
