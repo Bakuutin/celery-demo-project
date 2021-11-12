@@ -20,3 +20,7 @@ media
 .mypy_cache
 *celerybeat.pid
 screenshots
+.ipython
+.jupyter
+.ipynb_checkpoints
+.bash_history

@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 django-extensions = "*"
 ipython = "*"
 jupyterlab = "*"
+pywatchman = "*"
 
 [dev-packages]
 

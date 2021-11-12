@@ -14,5 +14,10 @@ def debug_task(self):
 
 @app.task
 def long_task():
-    sleep(5)
+    sleep(10)
     return 42
+
+
+@app.task
+def add(a, b):
+    return a + b

@@ -8,8 +8,14 @@ x-variables: &variables
   POSTGRES_DB: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: $SECRET
+  RABBITMQ_HOST: rabbitmq
   RABBITMQ_DEFAULT_USER: 'guest'
   RABBITMQ_DEFAULT_PASS: $SECRET
+
+x-python: &python
+  build: .
+  volumes: [./:/srv]
+  environment: *variables
 
 services:
   postgres:
@@ -21,8 +27,13 @@ services:
     ports: ["15672:15672"]
     environment: *variables
   app:
-    build: .
-    volumes: [./:/srv]
+    <<: *python
     ports: ["8000:8000"]
-    environment: *variables
-    command: ['python', 'manage.py', 'runserver', '0.0.0.0:8000']
+    command: ['./manage.py', 'runserver', '0.0.0.0:8000']
+  jupyter:
+    <<: *python
+    ports: ["8888:8888"]
+    command: ['jupyter-lab', '--ip=0.0.0.0']
+  worker:
+    <<: *python
+    command: ['./manage.py', 'run_celery', 'worker']

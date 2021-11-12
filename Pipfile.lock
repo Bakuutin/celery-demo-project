@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "89989047bea189701e40070ca30d5d46a9a752f7d07c13784bfeff5797792b1e"
+            "sha256": "2a0d439aec3caa81146e6a7d9fc764c305ffc0e993c4c998070e6ac0ad2db87c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -702,6 +702,13 @@
                 "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
             ],
             "version": "==2021.3"
+        },
+        "pywatchman": {
+            "hashes": [
+                "sha256:d0047eb275deafb0011eda0a1a815fbd9742478c3d2b5ad6956d300e447dc2f9"
+            ],
+            "index": "pypi",
+            "version": "==1.4.1"
         },
         "pyzmq": {
             "hashes": [
