@@ -2,17 +2,23 @@ version: "3.8"
 
 x-variables: &variables
   DJANGO_SETTINGS_MODULE: app.settings
-  SECRET_KEY: $SECRET_KEY
+  SECRET_KEY: $SECRET
   POSTGRES_HOST: 'postgres'
   POSTGRES_PORT: 5432
   POSTGRES_DB: postgres
   POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  POSTGRES_PASSWORD: $SECRET
+  RABBITMQ_DEFAULT_USER: 'guest'
+  RABBITMQ_DEFAULT_PASS: $SECRET
 
 services:
   postgres:
     image: postgres:14.1-alpine
     ports: ["5432:5432"]
+    environment: *variables
+  rabbitmq:
+    image: rabbitmq:3.8-alpine
+    ports: ["15672:15672"]
     environment: *variables
   app:
     build: .
