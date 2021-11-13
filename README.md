@@ -20,7 +20,7 @@ docker-compose run --rm app ./manage.py migrate
 docker-compose up -d
 ```
 
-Open [http://localhost:8000/reports]
+Open <http://localhost:8000/reports>
 
 ## Optional: install packages locally
 
