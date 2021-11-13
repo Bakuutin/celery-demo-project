@@ -153,9 +153,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
-RABBITMQ_DEFAULT_USER = env('RABBITMQ_DEFAULT_USER')
+RABBITMQ_DEFAULT_USER = env('RABBITMQ_DEFAULT_USER', 'guest')
 RABBITMQ_DEFAULT_PASS = env('RABBITMQ_DEFAULT_PASS')
-RABBITMQ_HOST = env('RABBITMQ_HOST')
+RABBITMQ_HOST = env('RABBITMQ_HOST', 'localhost')
 
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_BROKER_URL = f'amqp://{RABBITMQ_DEFAULT_USER}:{RABBITMQ_DEFAULT_PASS}@{RABBITMQ_HOST}'
@@ -165,13 +165,14 @@ CELERY_WORKER_SEND_TASK_EVENTS = True
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_ALWAYS_EAGER = False
 CELERY_WORKER_CONCURRENCY = 8
+CELERY_BEAT_SCHEDULE_FILENAME = '/tmp/beat.db'
 CELERY_BEAT_SCHEDULE = {
     # Please, keep schedule in seconds as either unique prime number
     # or a unique prime number times power of two
     # It makes workers load more evenly distributed over time
-    'run_planned_actions': {
-        'task': 'app.celery.run_planned_actions',
-        'schedule': timedelta(seconds=30),
+    'fix_empty_reports': {
+        'task': 'app.tasks.fix_empty_reports',
+        'schedule': timedelta(minutes=1),
     },
 }
 

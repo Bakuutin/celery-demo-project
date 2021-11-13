@@ -2,15 +2,15 @@ version: "3.8"
 
 x-variables: &variables
   DJANGO_SETTINGS_MODULE: app.settings
-  SECRET_KEY: $SECRET
+  SECRET_KEY: $SECRET_KEY
   POSTGRES_HOST: 'postgres'
   POSTGRES_PORT: 5432
   POSTGRES_DB: postgres
   POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: $SECRET
+  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   RABBITMQ_HOST: rabbitmq
   RABBITMQ_DEFAULT_USER: 'guest'
-  RABBITMQ_DEFAULT_PASS: $SECRET
+  RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
 
 x-python: &python
   build: .
@@ -21,20 +21,24 @@ x-python: &python
 services:
   postgres:
     image: postgres:14.1-alpine
-    ports: ["5432:5432"]
+    ports: ['5432:5432']
     environment: *variables
   rabbitmq:
     image: rabbitmq:3.8-alpine
-    ports: ["15672:15672"]
+    ports: ['15672:15672']
     environment: *variables
   app:
     <<: *python
-    ports: ["8000:8000"]
+    ports: ['8000:8000']
     command: ['./manage.py', 'runserver', '0.0.0.0:8000']
-  jupyter:
-    <<: *python
-    ports: ["8888:8888"]
-    command: ['jupyter-lab', '--ip=0.0.0.0']
   worker:
     <<: *python
     command: ['./manage.py', 'run_celery', 'worker']
+  beat:
+    <<: *python
+    command: ['./manage.py', 'run_celery', 'beat']
+  jupyter:
+    <<: *python
+    ports: ['8888:8888']
+    command: ['jupyter-lab', '--ip=0.0.0.0']
+    profiles: [jupyter]

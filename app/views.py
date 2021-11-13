@@ -1,3 +1,5 @@
+from typing import cast
+
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,7 +9,6 @@ from .utils import enqueue_on_commit
 from .models import Report
 from .serializers import ReportSerializer
 
-from typing import cast
 
 class RootView(APIView):
     def get(self, request, *args, **kwargs):
